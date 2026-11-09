@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DERLY TRADER | Dashboard Cloud</title>
+<style>
+:root{
+  --bg:#050912;--panel:#0b111c;--panel2:#0f1726;--line:#1f2b3d;--muted:#98a2b3;
+  --green:#22c55e;--green2:#4cff83;--orange:#f59e0b;--red:#ef4444;--blue:#60a5fa;--cyan:#22d3ee;--white:#f8fafc;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 20% 0%,#102033 0%,var(--bg) 44%,#02050b 100%);color:var(--white);font-family:Inter,Arial,sans-serif;overflow-x:hidden}
+button,input,select,textarea{font:inherit}.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}.sidebar{background:linear-gradient(180deg,#060b13,#03060b);border-right:1px solid var(--line);padding:20px 13px;position:sticky;top:0;height:100vh;overflow:auto} .brand{text-align:center;margin-bottom:20px}.brand-mark{width:86px;height:86px;border-radius:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;background:linear-gradient(145deg,#12321f,#0a1710);border:1px solid rgba(76,255,131,.35);box-shadow:0 12px 35px rgba(34,197,94,.16);color:var(--green2);font-weight:1000;font-size:31px;letter-spacing:1px}.brand-title{font-size:29px;font-weight:900;letter-spacing:.6px;line-height:1}.brand-sub{color:var(--green2);font-weight:800;font-size:19px;letter-spacing:2px}.version{display:inline-block;color:var(--muted);font-size:11px;margin-top:6px}.nav{display:grid;gap:8px}.nav button{border:0;background:transparent;color:#cbd5e1;text-align:left;padding:12px 13px;border-radius:11px;cursor:pointer;font-size:14px}.nav button.active,.nav button:hover{background:rgba(34,197,94,.14);color:var(--green2);box-shadow:inset 0 0 0 1px rgba(34,197,94,.18)}
+.mode-card,.streak-box{margin-top:16px;background:linear-gradient(180deg,#101a2a,#0b111c);border:1px solid var(--line);border-radius:14px;padding:14px}.mode-card small,.streak-box small{display:block;color:var(--muted);margin-bottom:7px}.mode-card strong{display:block;color:var(--green2);font-size:15px;margin-bottom:9px}.streak-box strong{display:block;color:var(--green2);font-size:28px;margin:6px 0}.mode-actions{display:grid;gap:7px}.mode-actions button,.backup-btn{border:1px solid var(--line);background:#111827;color:#fff;border-radius:9px;padding:9px;cursor:pointer;font-weight:800}.mode-actions button.admin{background:linear-gradient(90deg,#22c55e,#43e46d);color:#031008;border:0}.mode-actions button.exit{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.32);color:#ff9b9b}.backup-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+.main{padding:20px;min-width:0}.view-banner{display:none;margin-bottom:13px;background:rgba(34,197,94,.09);border:1px solid rgba(34,197,94,.20);color:#d1fae5;border-radius:13px;padding:11px 13px;font-weight:700}.topbar{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:16px}.hello h1{margin:0;font-size:22px}.hello p{margin:7px 0 0;color:var(--muted)}.dot{display:inline-block;width:8px;height:8px;border-radius:999px;background:var(--green);box-shadow:0 0 13px var(--green);margin-left:7px}.stage-filter{display:flex;gap:6px;margin-top:11px}.stage-filter button,.chart-tabs button,.range-tabs button{border:1px solid var(--line);background:#0d1522;color:#cbd5e1;border-radius:9px;padding:8px 10px;cursor:pointer;font-size:12px;font-weight:800}.stage-filter button.active,.chart-tabs button.active,.range-tabs button.active{border-color:var(--green);color:var(--green2);background:rgba(34,197,94,.14)}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:10px;min-width:720px}.kpi{background:linear-gradient(180deg,#101723,#0a101a);border:1px solid var(--line);border-radius:14px;padding:14px 15px;box-shadow:0 15px 40px rgba(0,0,0,.25)}.kpi label{display:block;color:#cbd5e1;text-transform:uppercase;font-size:11px;letter-spacing:.65px;margin-bottom:7px}.kpi strong{font-size:30px;color:var(--green2)}.kpi small{display:block;color:var(--muted);margin-top:5px}.kpi.orange strong{color:var(--orange)}.kpi.blue strong{color:var(--cyan)}
+.section{display:none}.section.active{display:block}.grid{display:grid;grid-template-columns:minmax(620px,1.5fr) minmax(410px,.82fr);gap:16px}.panel{background:linear-gradient(180deg,rgba(15,23,38,.97),rgba(8,13,22,.97));border:1px solid var(--line);border-radius:15px;box-shadow:0 18px 55px rgba(0,0,0,.24)}.panel.pad{padding:17px}.calendar-wrap{display:grid;grid-template-columns:1fr 265px;gap:13px}.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;gap:10px}.cal-head h2{margin:0;font-size:18px}.cal-tools{display:flex;gap:8px;align-items:center}.cal-tools input{max-width:145px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.dow{color:#cbd5e1;text-align:center;font-size:11px;padding:4px}.day{height:44px;border:1px solid var(--line);background:#101827;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;position:relative;color:#fff}.day:hover{border-color:rgba(34,197,94,.65)}.day.sel{outline:2px solid var(--green);background:rgba(34,197,94,.20);color:var(--green2)}.day.pos{background:rgba(34,197,94,.13)}.day.neg{background:rgba(239,68,68,.14);color:#ff7878}.day.be{background:rgba(245,158,11,.13);color:#fbbf24}.day.pending{box-shadow:inset 0 -3px 0 #64748b}.day .mark{position:absolute;right:6px;top:6px;width:6px;height:6px;border-radius:50%;background:currentColor}.legend{display:flex;gap:13px;flex-wrap:wrap;margin-top:12px;color:#cbd5e1;font-size:12px}.lg{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px}.monthly h3{margin:3px 0 12px}.general-summary{margin-top:16px;padding-top:13px;border-top:1px solid rgba(148,163,184,.15)}.general-summary h3{color:var(--green2)}.row{display:flex;justify-content:space-between;border-bottom:1px solid rgba(148,163,184,.11);padding:8px 0;color:#cbd5e1;gap:12px}.row strong{color:#fff;text-align:right}.g{color:var(--green2)!important}.r{color:var(--red)!important}.o{color:var(--orange)!important}.muted{color:var(--muted)}
+.detail{margin-top:16px;padding:16px}.detail-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:11px}.detail-head h2{font-size:18px;margin:0}.pill{background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.24);color:var(--green2);border-radius:999px;padding:5px 10px;font-weight:800;font-size:11px}.notes{background:#0c1320;border:1px solid var(--line);border-radius:10px;padding:12px;color:#d1d5db;margin-top:9px;white-space:pre-wrap}.situation-detail{margin-top:11px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#09101b}.situation-detail h4{margin:0 0 9px;color:var(--green2)}.detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.detail-cell{background:#0d1624;border-radius:9px;padding:9px}.detail-cell span{display:block;color:var(--muted);font-size:11px}.detail-cell strong{display:block;margin-top:4px;font-size:14px}.detail-img{width:100%;max-height:340px;object-fit:contain;background:#060b13;border:1px solid var(--line);border-radius:10px;margin-top:10px;display:none}
+.mini-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.mini{background:#0b1320;border:1px solid var(--line);border-radius:11px;padding:12px}.mini span{display:block;color:#cbd5e1;font-size:11px}.mini strong{display:block;font-size:22px;margin-top:5px}
+.charts{display:grid;grid-template-columns:1.35fr .8fr;gap:16px;margin-top:16px}.chart-box{padding:16px;min-height:285px}.chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}.chart-box h3{margin:0}.chart-tabs,.range-tabs{display:flex;gap:5px;flex-wrap:wrap}.range-tabs{margin-top:7px}.canvas-wrap{height:215px;position:relative;margin-top:12px}.chart-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:9px}.chart-summary div{background:#0a111d;border:1px solid var(--line);border-radius:9px;padding:8px}.chart-summary span{display:block;color:var(--muted);font-size:10px}.chart-summary strong{display:block;margin-top:3px;font-size:14px}.bottom-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:11px}.stat-card{background:#0b1320;border:1px solid var(--line);border-radius:12px;padding:14px}.stat-card label{display:block;color:#cbd5e1;font-size:12px}.stat-card strong{font-size:24px;display:block;margin-top:7px}
+.form h2{margin:0 0 13px}.field{margin-bottom:10px}.field label{display:block;color:#e5e7eb;font-weight:700;font-size:12px;margin-bottom:5px}.field-help{color:var(--muted);font-size:10px;margin-top:4px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}select,input,textarea{width:100%;background:#111827;border:1px solid var(--line);color:#fff;border-radius:8px;padding:10px;font-size:13px}textarea{min-height:85px;resize:vertical}.bitacora{min-height:125px}.switch{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:9px;overflow:hidden}.switch button{border:0;padding:9px;background:#111827;color:#fff;cursor:pointer;font-weight:800}.switch button.active{background:linear-gradient(90deg,#16a34a,#22c55e);color:#031008}.situation-card{margin-top:13px;border:1px solid #26354a;border-radius:13px;padding:12px;background:linear-gradient(180deg,#0d1624,#09101a)}.situation-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.situation-head h3{margin:0;font-size:15px}.num-badge{width:25px;height:25px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:rgba(34,197,94,.18);color:var(--green2);border:1px solid rgba(34,197,94,.3);margin-right:7px}.remove-situation{border:1px solid rgba(239,68,68,.35);background:rgba(239,68,68,.10);color:#ff9696;border-radius:8px;padding:6px 8px;cursor:pointer}.upload-box{border:1px dashed #40506a;border-radius:10px;padding:10px;text-align:center;background:#09101a;position:relative}.upload-box input{position:absolute;inset:0;opacity:0;cursor:pointer}.upload-preview{width:100%;max-height:190px;object-fit:contain;border-radius:8px;margin-top:8px;display:none}.add-situation,.save{width:100%;border-radius:9px;padding:12px;font-weight:900;cursor:pointer}.add-situation{margin-top:11px;border:1px solid var(--line);background:#111827;color:#fff}.save{background:linear-gradient(90deg,#22c55e,#43e46d);color:#031008;border:0;font-size:14px;margin-top:10px}.legacy-banner{display:none;background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.28);color:#fde68a;border-radius:10px;padding:9px;margin-bottom:10px;font-size:11px}
+.emotion-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.emotion-tag{border:1px solid var(--line);background:#0e1724;color:#cbd5e1;border-radius:999px;padding:6px 9px;font-size:11px}.emotion-check{margin-top:16px;padding:15px}.emotion-check h3{margin:0 0 10px}.emotion-list{display:grid;gap:7px}.emotion-item{display:flex;gap:8px;align-items:flex-start;color:#dbe4ee;font-size:12px}.emotion-dot{width:7px;height:7px;border-radius:50%;background:var(--green2);margin-top:5px;flex:0 0 auto}.emotion-dot.warn{background:var(--orange)}.emotion-dot.bad{background:var(--red)}
+.table{width:100%;border-collapse:collapse}.table td,.table th{border-bottom:1px solid var(--line);padding:11px;text-align:left;vertical-align:top}.table th{color:#cbd5e1;font-size:12px}.section-title{margin:0 0 12px}.analysis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.analysis-card{padding:15px}.analysis-card h3{margin:0 0 8px;font-size:14px}.analysis-card strong{font-size:25px}.admin-only{}body.view-mode .admin-only,body.view-mode #rightForm{display:none!important}body.view-mode .grid{grid-template-columns:1fr!important}body.view-mode .view-banner{display:block}
+.day-actions{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:10px}.delete-day{border:1px solid rgba(239,68,68,.45);background:rgba(239,68,68,.12);color:#ffaaaa;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer}.delete-day:hover{background:rgba(239,68,68,.20)}.delete-day:disabled{opacity:.55;cursor:not-allowed}@media(max-width:640px){.day-actions{grid-template-columns:1fr}.delete-day{width:100%}}
+/* V5: evita que canvas retina agrande el ancho real en iPhone/Safari */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.app,.main,.grid,.charts,.panel,.chart-box,.calendar-wrap{min-width:0}
+.grid>* ,.charts>* ,.calendar-wrap>*{min-width:0}
+.canvas-wrap{width:100%;max-width:100%;min-width:0;overflow:hidden}
+.canvas-wrap canvas{display:block;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important}
+img,video{max-width:100%;height:auto}
+@media(max-width:1250px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr));min-width:0}
+  .grid,.calendar-wrap,.charts{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:920px){
+  .app{grid-template-columns:1fr;width:100%;max-width:100vw}
+  .sidebar{position:relative;height:auto;padding:12px 12px 10px;overflow:visible}
+  .brand{display:flex;align-items:center;gap:10px;text-align:left;margin-bottom:10px}
+  .brand-mark{width:52px;height:52px;margin:0;border-radius:12px;font-size:20px;flex:0 0 auto}
+  .brand-title{font-size:22px}.brand-sub{font-size:13px;letter-spacing:1.5px}.version{margin-top:2px}
+  .nav{display:flex;gap:7px;overflow-x:auto;padding-bottom:3px;scrollbar-width:none}
+  .nav::-webkit-scrollbar{display:none}
+  .nav button{white-space:nowrap;padding:9px 11px;font-size:12px}
+  .mode-card,.streak-box{margin-top:10px}
+  .topbar{flex-direction:column;align-items:stretch;gap:9px}
+  .stage-filter{flex-wrap:wrap}
+  .mini-cards,.bottom-cards,.analysis-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body.view-mode .mode-actions,body.view-mode .backup-grid{display:none!important}
+  body.view-mode .mode-card{padding:9px 11px}
+}
+@media(max-width:700px){
+  html,body,.app,.main{width:100%!important;max-width:100vw!important;min-width:0!important;overflow-x:hidden!important}
+  body{background:#050912;font-size:14px}
+  .main{padding:10px;width:100%;max-width:100vw;overflow:hidden}
+  .hello h1{font-size:20px}.hello p{font-size:12px;line-height:1.45}
+  .view-banner{font-size:12px;padding:9px 10px}
+  .kpis{grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:100%}
+  .kpi{padding:11px 12px;border-radius:12px;min-width:0}
+  .kpi label{font-size:9px;letter-spacing:.45px}.kpi strong{font-size:25px}.kpi small{font-size:10px;line-height:1.25}
+  .grid,.charts{grid-template-columns:1fr!important;gap:10px;width:100%;max-width:100%}
+  .panel{border-radius:12px;max-width:100%;overflow:hidden}
+  .panel.pad,.detail,.chart-box,.emotion-check{padding:11px}
+  .calendar-wrap{display:block;padding:11px}
+  .cal-head{align-items:flex-start;flex-direction:column;margin-bottom:9px}
+  .cal-head h2{font-size:16px}
+  .cal-tools{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .cal-tools input{max-width:none}
+  .calendar{gap:4px;width:100%}
+  .dow{font-size:9px;padding:3px 0}
+  .day{height:40px;border-radius:7px;font-size:12px}
+  .day .mark{right:4px;top:4px;width:5px;height:5px}
+  .legend{font-size:10px;gap:8px;margin-top:9px}
+  .monthly{margin-top:14px}.monthly h3{font-size:15px}
+  .row{padding:7px 0;font-size:12px}.row strong{font-size:12px}
+  .detail{margin-top:10px}
+  .detail-head{align-items:flex-start}.detail-head h2{font-size:16px}.pill{font-size:10px}
+  .notes{font-size:12px;line-height:1.45;padding:10px}
+  .situation-detail{padding:10px}
+  .detail-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .detail-cell{padding:8px;min-width:0}.detail-cell span{font-size:9px}.detail-cell strong{font-size:12px;overflow-wrap:anywhere}
+  .detail-img,.day-general-img{width:100%!important;max-width:100%!important;max-height:none!important;height:auto!important;object-fit:contain}
+  .mini-cards,.bottom-cards,.analysis-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .mini,.stat-card,.analysis-card{padding:10px;min-width:0}.mini strong,.stat-card strong,.analysis-card strong{font-size:19px}
+  .chart-head{gap:8px}.chart-box h3{font-size:15px}.chart-tabs,.range-tabs{gap:4px}
+  .chart-tabs button,.range-tabs button,.stage-filter button{font-size:10px;padding:7px 8px}
+  .canvas-wrap{height:190px}
+  .chart-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .form-grid{grid-template-columns:1fr}.form h2{font-size:17px}
+  select,input,textarea{font-size:16px;padding:10px} /* evita zoom automático en iPhone */
+  .field label{font-size:11px}.bitacora{min-height:115px}
+  .situation-card{padding:10px}.situation-head h3{font-size:14px}
+  .upload-preview{max-height:none}
+  .table{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:12px}
+  .table th,.table td{min-width:105px;padding:9px}
+}
+@media(max-width:420px){
+  .sidebar{padding:10px 9px 8px}
+  .brand-mark{width:44px;height:44px;font-size:17px}.brand-title{font-size:19px}.brand-sub{font-size:11px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi strong{font-size:22px}
+  .cal-tools{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:1fr 1fr}
+  .mini-cards,.bottom-cards,.analysis-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark" aria-label="DERLY TRADER">DT</div><div><div class="brand-title">DERLY</div><div class="brand-sub">TRADER</div><span class="version">Journal · Cloud</span></div></div>
+    <nav class="nav">
+      <button class="active" data-tab="dashboard">▦ Dashboard</button>
+      <button data-tab="registro" class="admin-only">▤ Registro diario</button>
+      <button data-tab="metricas">↗ Métricas</button>
+      <button data-tab="analisis">◉ Análisis</button>
+      <button data-tab="notas">✎ Bitácora</button>
+    </nav>
+    <div class="mode-card">
+      <small>Modo de acceso</small><strong id="modeLabel">Visitante · solo lectura</strong>
+      <div class="mode-actions"><button class="admin" id="adminBtn">Iniciar sesión admin</button><button class="exit" id="exitAdminBtn">Cerrar sesión</button></div>
+      <div class="backup-grid admin-only" style="grid-template-columns:1fr"><button class="backup-btn" id="exportBtn">⬇ Respaldo JSON</button></div>
+      <small id="syncLabel" style="margin-top:8px">Supabase: conectando…</small>
+    </div>
+    <div class="streak-box"><small>🔥 Racha actual</small><strong id="sideStreak">0 días</strong><small id="sideBest">Mejor racha: 0 días</small></div>
+  </aside>
+  <main class="main">
+    <div class="view-banner">🔒 Modo visitante. Puedes ver toda la bitácora, pero solo Derly puede crear o editar registros.</div>
+    <div class="topbar">
+      <div class="hello"><h1>Hola, Derly 👋</h1><p>Tu journal. Tu proceso. Tu mejor versión. <span class="dot"></span></p><div class="stage-filter"><button data-stage="TODO" class="active">Todo</button><button data-stage="REAL">Real</button><button data-stage="DEMO">Demo</button></div></div>
+      <div class="kpis">
+        <div class="kpi"><label>Trader Score</label><strong id="kpiScore">0/100</strong><small id="kpiScoreSub">Sin datos evaluados</small></div>
+        <div class="kpi"><label>Acertabilidad</label><strong id="kpiAsert">0%</strong><small id="kpiAsertSub">Entradas correctas</small></div>
+        <div class="kpi orange"><label>Efectividad</label><strong id="kpiEfec">0%</strong><small id="kpiEfecSub">Gestión correcta</small></div>
+        <div class="kpi blue"><label>Disciplina</label><strong id="kpiDisc">0%</strong><small id="kpiDiscSub">Sin error conductual</small></div>
+      </div>
+    </div>
+
+    <section id="dashboard" class="section active">
+      <div class="grid">
+        <div>
+          <div class="panel pad calendar-wrap">
+            <div>
+              <div class="cal-head"><h2>Calendario de operativa</h2><div class="cal-tools"><input type="month" id="month"><input type="date" id="date"></div></div>
+              <div class="calendar" id="cal"></div>
+              <div class="legend"><span><b class="lg" style="background:var(--green)"></b>Positivo</span><span><b class="lg" style="background:var(--orange)"></b>BE</span><span><b class="lg" style="background:var(--red)"></b>Negativo</span><span><b class="lg" style="background:#64748b"></b>Pendiente revisar</span></div>
+            </div>
+            <div><div class="monthly"><h3>Resumen del mes</h3><div id="monthRows"></div></div><div class="monthly general-summary"><h3>Resumen general</h3><div id="generalRows"></div></div></div>
+          </div>
+
+          <div class="panel detail">
+            <div class="detail-head"><h2 id="detailTitle">Detalle del día</h2><span class="pill" id="dayPill">Sin operar</span></div>
+            <div id="legacyDetail" class="legacy-banner" style="display:none"></div>
+            <div class="notes" id="dayEmotion">Selecciona un día para ver la bitácora emocional.</div>
+            <div id="detailSituations"></div>
+            <div class="mini-cards">
+              <div class="mini"><span>Setup válido</span><strong class="g" id="validCount">0</strong><span id="validRate">0% acertabilidad</span></div>
+              <div class="mini"><span>Ejecución correcta</span><strong id="execCount">0</strong><span id="execRate">0% efectividad</span></div>
+              <div class="mini"><span>Errores conductuales</span><strong class="r" id="errorCount">0</strong><span id="errorCost">0 pts</span></div>
+              <div class="mini"><span>Situaciones</span><strong id="situationsCount">0</strong><span>máximo 2 por día</span></div>
+            </div>
+          </div>
+
+          <div class="charts">
+            <div class="panel chart-box">
+              <div class="chart-head"><div><h3>Evolución del trader</h3><div class="range-tabs"><button data-range="WEEK" class="active">Semanal</button><button data-range="MONTH">Mensual</button><button data-range="ALL">Todo</button></div></div><div class="chart-tabs"><button data-metric="PNL" class="active">PnL</button><button data-metric="ACERT">Acertabilidad</button><button data-metric="EFEC">Efectividad</button><button data-metric="DISC">Disciplina</button><button data-metric="SCORE">Trader Score</button></div></div>
+              <div class="canvas-wrap"><canvas id="lineChart"></canvas></div>
+              <div class="chart-summary" id="chartSummary"></div>
+            </div>
+            <div class="panel chart-box"><h3>Distribución de resultados</h3><div class="canvas-wrap"><canvas id="donutChart"></canvas></div><div id="donutLegend"></div></div>
+          </div>
+
+          <div class="bottom-cards">
+            <div class="stat-card"><label>🏆 Mejor día</label><strong class="g" id="bestDay">—</strong><small id="bestDayDate">—</small></div>
+            <div class="stat-card"><label>⚠ Peor día</label><strong class="r" id="worstDay">—</strong><small id="worstDayDate">—</small></div>
+            <div class="stat-card"><label>🔥 Mayor racha ganadora</label><strong class="g" id="bestWinStreak">0 días</strong><small id="bestWinRange">—</small></div>
+            <div class="stat-card"><label>🧠 Costo bruto de errores</label><strong class="r" id="errorCostAll">0 pts</strong><small>Solo pérdidas con error conductual</small></div>
+          </div>
+
+          <div class="panel emotion-check"><h3>🧠 Chequeo emocional semanal</h3><div class="emotion-list" id="emotionWeekly"></div></div>
+        </div>
+
+        <aside class="panel pad form" id="rightForm">
+          <h2>Registro del día</h2>
+          <div id="legacyForm" class="legacy-banner" style="display:none"></div>
+          <div class="form-grid">
+            <div class="field"><label>Etapa</label><select id="etapa"><option>REAL</option><option>DEMO</option></select></div>
+            <div class="field"><label>Sesión principal</label><select id="sesionDia"><option>New York</option><option>London</option><option>Ambas</option></select></div>
+            <div class="field"><label>Feeling inicial</label><select id="feelingInicial"><option value="">Seleccionar</option><option>Tranquilo</option><option>Profesional</option><option>Confiado</option><option>Ansioso</option><option>Presionado</option><option>Cansado</option><option>Frustrado</option></select></div>
+            <div class="field"><label>Presión externa</label><select id="presion"><option value="">Seleccionar</option><option>Baja</option><option>Media</option><option>Alta</option></select></div>
+            <div class="field"><label>Emoción durante</label><select id="feelingDurante"><option value="">Seleccionar</option><option>Neutro</option><option>Profesional</option><option>Certeza</option><option>Ansiedad</option><option>FOMO</option><option>Venganza</option><option>Ira</option><option>Frustración</option><option>Miedo a perder</option><option>Miedo a devolver ganancia</option><option>Exceso de confianza</option></select></div>
+            <div class="field"><label>Feeling final</label><select id="feelingFinal"><option value="">Seleccionar</option><option>Tranquilo</option><option>Satisfecho</option><option>Orgulloso de la ejecución</option><option>Frustrado</option><option>Drenado</option><option>Molesto</option></select></div>
+          </div>
+          <div class="field"><label>Bitácora emocional del día</label><textarea class="bitacora" id="bitacora" placeholder="Premarket, zonas, dirección, cómo llegaste mentalmente, qué sentiste durante los trades, qué hiciste bien, qué te incomodó..."></textarea></div>
+          <div class="field"><label>Nota general / aprendizaje</label><textarea id="notaGeneral" placeholder="Conclusión objetiva del día..."></textarea></div>
+          <div class="field"><label>Evidencia general del día</label><div class="upload-box">📷 Subir imagen general del día<input type="file" id="dayImageInput" accept="image/*"></div><img class="upload-preview" id="dayPreview" alt="Evidencia general"></div>
+
+          <div id="situationsForm"></div>
+          <button class="add-situation" id="addSituationBtn">＋ Agregar Situación 2</button>
+          <div class="day-actions"><button class="save" id="saveBtn">Guardar registro del día</button><button class="delete-day" id="deleteDayBtn">🗑 Eliminar día</button></div>
+          <div class="field-help" style="margin-top:8px">Las imágenes se convierten a JPG, se comprimen y se guardan en Supabase. Al guardar, quedan visibles desde el mismo enlace público en cualquier dispositivo.</div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="registro" class="section"><div class="panel pad"><h2 class="section-title">Registro diario</h2><p class="muted">El formulario completo está en el panel derecho del Dashboard. Cada día admite máximo dos situaciones independientes.</p></div></section>
+    <section id="metricas" class="section"><div class="panel pad"><h2 class="section-title">Métricas generales</h2><table class="table" id="metricsTable"></table></div></section>
+    <section id="analisis" class="section"><div class="analysis-grid"><div class="panel analysis-card"><h3>Setup válido</h3><strong class="g" id="anaValid">0%</strong><p class="muted">Qué tan seguido entras según las reglas.</p></div><div class="panel analysis-card"><h3>Ejecución correcta</h3><strong id="anaExec">0%</strong><p class="muted">Qué tan bien gestionas después de entrar.</p></div><div class="panel analysis-card"><h3>Errores conductuales</h3><strong class="r" id="anaErrors">0</strong><p class="muted">FOMO, venganza, reingreso, tamaño, etc.</p></div></div><div class="panel pad" style="margin-top:14px"><h2 class="section-title">Diagnóstico</h2><div id="analysisText" class="notes">Aún no hay suficientes datos evaluados.</div></div></section>
+    <section id="notas" class="section"><div class="panel pad"><h2 class="section-title">Bitácora por día</h2><p class="muted">Aquí queda tu relato emocional y la conclusión de cada sesión.</p><table class="table" id="notesTable"></table></div></section>
+  </main>
+</div>
+
+<div class="login-overlay" id="loginModal">
+  <div class="login-card">
+    <h2>Acceso administrador</h2>
+    <p>El público puede ver el dashboard. Solo tu usuario autorizado puede editar y subir imágenes.</p>
+    <div class="field"><label>Correo</label><input id="loginEmail" type="email" value="derlyluna@yahoo.com" autocomplete="username"></div>
+    <div class="field"><label>Contraseña</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Tu contraseña de admin"></div>
+    <div class="login-error" id="loginError"></div>
+    <div class="login-actions"><button id="cancelLogin">Cancelar</button><button class="primary" id="doLogin">Entrar</button></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const SUPABASE_URL=window.DERLY_CONFIG?.SUPABASE_URL||'https://TU-PROYECTO.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY=window.DERLY_CONFIG?.SUPABASE_PUBLISHABLE_KEY||'PEGA_AQUI_TU_PUBLISHABLE_KEY';
+const ADMIN_EMAIL=(window.DERLY_CONFIG?.ADMIN_EMAIL||'derlyluna@yahoo.com').toLowerCase();
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
+const DATE_RE=/^\d{4}-\d{2}-\d{2}$/;
+const DEFAULT_SITUATION=()=>({tipo:'',direccion:'',instrumento:'MES',contratos:'',entrada:'',sesion:'New York',manto:'',setupValido:'',stopPts:'',targetPts:'',resultado:'',puntos:'',pnl:'',gestion:'',ejecucionCorrecta:'',errorConductual:'Ninguno',notas:'',imagePath:''});
+const DEFAULT_DAY=()=>({version:3,etapa:'DEMO',sesionDia:'New York',feelingInicial:'',presion:'',feelingDurante:'',feelingFinal:'',bitacora:'',notaGeneral:'',dayImagePath:'',situations:[DEFAULT_SITUATION()]});
+let stageFilter='TODO',chartMetric='PNL',chartRange='WEEK',currentDay=DEFAULT_DAY(),draftImages={},draftDayImage=null,remoteDays=[],authSession=null,loading=false;
+
+function num(v){const n=parseFloat(String(v??'').replace(',','.'));return Number.isFinite(n)?n:0}
+function nullableNum(v){return String(v??'').trim()===''?null:num(v)}
+function pct(n,d){return d?Math.round(n/d*100):0}
+function fmt(n,d=1){n=Number(n||0);return `${n>=0?'+':''}${n.toFixed(d)}`}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function yesNo(v){return v===true?'Sí':v===false?'No':''}
+function toBool(v){return v==='Sí'?true:v==='No'?false:null}
+function titleCase(v){if(!v)return'';return String(v).charAt(0).toUpperCase()+String(v).slice(1).toLowerCase()}
+function setSync(text,state=''){const el=$('syncLabel');if(!el)return;el.textContent=text;el.className=`cloud-status ${state}`}
+function publicImageUrl(path){if(!path)return'';return sb.storage.from('trading-images').getPublicUrl(path).data.publicUrl}
+function situationHasData(s){return !!(s.tipo||s.direccion||String(s.contratos).trim()||s.entrada||s.manto||s.setupValido||s.resultado||String(s.puntos).trim()||String(s.pnl).trim()||s.gestion||s.ejecucionCorrecta||(s.errorConductual&&s.errorConductual!=='Ninguno')||s.notas||s.imagePath)}
+
+function dbSituationToUi(r){return {...DEFAULT_SITUATION(),tipo:r.trade_type==='PEQUEÑO'?'Pequeño':r.trade_type==='GRANDE'?'Grande':'',direccion:r.direction?titleCase(r.direction):'',instrumento:r.instrument||'MES',contratos:r.contracts??'',entrada:r.entry_config||'',sesion:r.session_name||'New York',manto:yesNo(r.manto),setupValido:yesNo(r.entry_correct ?? r.setup_valid),stopPts:r.risk_points??'',targetPts:r.target_points??'',resultado:r.result?titleCase(r.result):'',puntos:r.points??'',pnl:r.pnl??'',gestion:r.management||'',ejecucionCorrecta:yesNo(r.execution_correct),errorConductual:r.conduct_error||'Ninguno',notas:r.note||'',imagePath:r.image_path||''}}
+function dbDayToUi(d,situations){return {...DEFAULT_DAY(),date:d.trade_date,etapa:d.stage||'DEMO',sesionDia:d.session_day||situations[0]?.session_name||'New York',feelingInicial:d.feeling_initial||'',presion:d.external_pressure?titleCase(d.external_pressure):'',feelingDurante:d.feeling_during||'',feelingFinal:d.feeling_after||'',bitacora:d.emotional_notes||'',notaGeneral:d.general_notes||'',dayImagePath:d.day_image_path||'',situations:(situations.length?situations.map(dbSituationToUi):[DEFAULT_SITUATION()]).slice(0,2)}}
+
+async function loadRemoteData(){
+  loading=true;setSync('Supabase: sincronizando…');
+  const [dr,sr]=await Promise.all([sb.from('trading_days').select('*').order('trade_date',{ascending:true}),sb.from('trade_situations').select('*').order('situation_no',{ascending:true})]);
+  loading=false;
+  if(dr.error||sr.error){console.error(dr.error||sr.error);setSync('Supabase: error de lectura','bad');throw(dr.error||sr.error)}
+  const byDay=new Map();(sr.data||[]).forEach(x=>{if(!byDay.has(x.day_id))byDay.set(x.day_id,[]);byDay.get(x.day_id).push(x)});
+  remoteDays=(dr.data||[]).map(d=>dbDayToUi(d,byDay.get(d.id)||[]));setSync(`Supabase: ${remoteDays.length} día(s) sincronizados`,'ok');
+}
+function readDay(date){const d=remoteDays.find(x=>x.date===date);return d?JSON.parse(JSON.stringify(d)):{...DEFAULT_DAY(),date}}
+function allDataRaw(){return remoteDays.slice().sort((a,b)=>a.date.localeCompare(b.date))}
+function dataFiltered(){return allDataRaw().filter(d=>stageFilter==='TODO'||d.etapa===stageFilter)}
+function monthData(){const ym=$('month').value;return dataFiltered().filter(d=>d.date.startsWith(ym))}
+function flatSituations(days){return days.flatMap(d=>(d.situations||[]).filter(situationHasData).map((s,i)=>({...s,date:d.date,etapa:d.etapa,day:d,index:i+1})))}
+function situationPoints(s){if(String(s.puntos).trim()!=='')return num(s.puntos);if(s.resultado==='Target')return 1;if(s.resultado==='Stop')return -1;return 0}
+function situationPnl(s){return num(s.pnl)}
+function dayPoints(d){return (d.situations||[]).reduce((a,s)=>a+situationPoints(s),0)}
+function dayPnl(d){return (d.situations||[]).reduce((a,s)=>a+situationPnl(s),0)}
+function dayOperated(d){return flatSituations([d]).length>0}
+function dayClass(d){if(!dayOperated(d))return'';const p=dayPoints(d);return p>0?'pos':p<0?'neg':'be'}
+function stats(days){
+  const sit=flatSituations(days),operated=days.filter(dayOperated),positive=operated.filter(d=>dayPoints(d)>0),negative=operated.filter(d=>dayPoints(d)<0),be=operated.filter(d=>dayPoints(d)===0);
+  const setupEval=sit.filter(s=>['Sí','No'].includes(s.setupValido)),execEval=sit.filter(s=>['Sí','No'].includes(s.ejecucionCorrecta)),discEval=sit.filter(s=>String(s.errorConductual||'').trim());
+  const acert=pct(setupEval.filter(s=>s.setupValido==='Sí').length,setupEval.length),efec=pct(execEval.filter(s=>s.ejecucionCorrecta==='Sí').length,execEval.length),disc=pct(discEval.filter(s=>s.errorConductual==='Ninguno').length,discEval.length);
+  const available=[setupEval.length?acert:null,execEval.length?efec:null,discEval.length?disc:null].filter(v=>v!==null),score=available.length?Math.round(available.reduce((a,b)=>a+b,0)/available.length):0;
+  const won=sit.reduce((a,s)=>a+(situationPoints(s)>0?situationPoints(s):0),0),lost=sit.reduce((a,s)=>a+(situationPoints(s)<0?Math.abs(situationPoints(s)):0),0),net=won-lost,pnl=sit.reduce((a,s)=>a+situationPnl(s),0);
+  const errors=sit.filter(s=>s.errorConductual&&s.errorConductual!=='Ninguno'),errorLossPts=errors.reduce((a,s)=>a+(situationPoints(s)<0?Math.abs(situationPoints(s)):0),0),errorLossUsd=errors.reduce((a,s)=>a+(situationPnl(s)<0?Math.abs(situationPnl(s)):0),0);
+  return{sit,operated,positive,negative,be,setupEval,execEval,discEval,acert,efec,disc,score,won,lost,net,pnl,errors,errorLossPts,errorLossUsd};
+}
+function streaks(days){const ops=days.filter(dayOperated).sort((a,b)=>a.date.localeCompare(b.date));let cur=0,bw=0,bwStart='',bwEnd='',run=0,start='';ops.forEach(d=>{if(dayPoints(d)>0){if(!run)start=d.date;run++;if(run>bw){bw=run;bwStart=start;bwEnd=d.date}}else run=0});for(let i=ops.length-1;i>=0;i--){if(dayPoints(ops[i])>0)cur++;else break}return{cur,bw,bwStart,bwEnd}}
+function dateRange(a,b){return a&&b?`${a.slice(5)} → ${b.slice(5)}`:'—'}
+
+function renderCal(){
+  const[y,m]=$('month').value.split('-').map(Number),days=new Date(y,m,0).getDate(),first=new Date(y,m-1,1),start=(first.getDay()+6)%7,md=monthData(),cal=$('cal');cal.innerHTML='';
+  ['LUN','MAR','MIÉ','JUE','VIE','SÁB','DOM'].forEach(x=>{const e=document.createElement('div');e.className='dow';e.textContent=x;cal.appendChild(e)});for(let i=0;i<start;i++)cal.appendChild(document.createElement('div'));
+  for(let d=1;d<=days;d++){const date=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`,rec=md.find(x=>x.date===date),el=document.createElement('div');el.className='day';if(date===$('date').value)el.classList.add('sel');if(rec&&dayOperated(rec)){el.classList.add(dayClass(rec));el.innerHTML=`${d}<span class="mark"></span>`}else el.textContent=d;el.onclick=()=>selectDate(date);cal.appendChild(el)}updateMetrics();
+}
+
+function situationFormHtml(s,i){const opts=(arr,val)=>arr.map(x=>`<option ${x===val?'selected':''}>${escapeHtml(x)}</option>`).join('');return `
+<div class="situation-card" data-i="${i}">
+  <div class="situation-head"><h3><span class="num-badge">${i+1}</span>Situación ${i+1}</h3>${i===1?'<button class="remove-situation" type="button" onclick="removeSituation2()">Quitar</button>':''}</div>
+  <div class="form-grid">
+    <div class="field"><label>Tipo</label><select data-f="tipo"><option value="">Seleccionar</option>${opts(['Pequeño','Grande'],s.tipo)}</select></div>
+    <div class="field"><label>Dirección</label><select data-f="direccion"><option value="">Seleccionar</option>${opts(['Long','Short'],s.direccion)}</select></div>
+    <div class="field"><label>Instrumento</label><select data-f="instrumento">${opts(['ES','MES','NES'],s.instrumento||'MES')}</select></div>
+    <div class="field"><label>Contratos</label><input data-f="contratos" type="number" min="0" step="1" value="${escapeHtml(s.contratos)}" placeholder="Ej: 5"></div>
+    <div class="field"><label>Entrada / configuración</label><input data-f="entrada" value="${escapeHtml(s.entrada)}" placeholder="Ej: manto, segunda curva..."></div>
+    <div class="field"><label>Sesión</label><select data-f="sesion">${opts(['New York','London'],s.sesion||'New York')}</select></div>
+    <div class="field"><label>Manto</label><select data-f="manto"><option value="">Sin evaluar</option>${opts(['Sí','No'],s.manto)}</select></div>
+    <div class="field"><label>Setup válido / Acertabilidad</label><select data-f="setupValido"><option value="">Pendiente</option>${opts(['Sí','No'],s.setupValido)}</select></div>
+    <div class="field"><label>Stop inicial (pts)</label><input data-f="stopPts" type="number" step="0.01" value="${escapeHtml(s.stopPts)}"></div>
+    <div class="field"><label>Target estructural (pts)</label><input data-f="targetPts" type="number" step="0.01" value="${escapeHtml(s.targetPts)}"></div>
+    <div class="field"><label>Resultado</label><select data-f="resultado"><option value="">Seleccionar</option>${opts(['Target','Stop','BE'],s.resultado)}</select></div>
+    <div class="field"><label>Puntos</label><input data-f="puntos" type="number" step="0.01" value="${escapeHtml(s.puntos)}" placeholder="+18 / -6 / 0"></div>
+    <div class="field"><label>PnL $</label><input data-f="pnl" type="number" step="0.01" value="${escapeHtml(s.pnl)}" placeholder="Opcional"></div>
+    <div class="field"><label>Gestión</label><select data-f="gestion"><option value="">Seleccionar</option>${opts(['Correcta','Parcial + runner','Apreté stop por estructura','Apreté stop por miedo','Amplié stop','Salí antes','Otra'],s.gestion)}</select></div>
+    <div class="field"><label>Ejecución correcta / Efectividad</label><select data-f="ejecucionCorrecta"><option value="">Pendiente</option>${opts(['Sí','No'],s.ejecucionCorrecta)}</select></div>
+    <div class="field"><label>Error conductual</label><select data-f="errorConductual">${opts(['Ninguno','Reingreso misma situación','FOMO','Venganza','Sobreoperación','Tamaño excesivo','Gestión emocional','Miedo a perder','Miedo a devolver ganancia','Otro'],s.errorConductual||'Ninguno')}</select></div>
+  </div>
+  <div class="field"><label>Nota de la situación</label><textarea data-f="notas" placeholder="Qué viste, qué hiciste y por qué...">${escapeHtml(s.notas)}</textarea></div>
+  <div class="field"><label>Evidencia operativa</label><div class="upload-box">📷 Subir imagen o arrastrar aquí<input type="file" accept="image/*" data-image="${i}"></div><img class="upload-preview" id="preview${i}" alt="Evidencia"></div>
+</div>`}
+function renderSituationForms(){
+  $('situationsForm').innerHTML=currentDay.situations.slice(0,2).map(situationFormHtml).join('');$('addSituationBtn').style.display=currentDay.situations.length>=2?'none':'block';
+  document.querySelectorAll('[data-image]').forEach(inp=>inp.addEventListener('change',()=>{const i=Number(inp.dataset.image),file=inp.files?.[0];if(!file)return;draftImages[i]=file;const p=$(`preview${i}`);p.src=URL.createObjectURL(file);p.style.display='block'}));
+  currentDay.situations.forEach((s,i)=>loadFormImage(i));
+}
+function syncFormToCurrent(){
+  currentDay.etapa=$('etapa').value;currentDay.sesionDia=$('sesionDia').value;currentDay.feelingInicial=$('feelingInicial').value;currentDay.presion=$('presion').value;currentDay.feelingDurante=$('feelingDurante').value;currentDay.feelingFinal=$('feelingFinal').value;currentDay.bitacora=$('bitacora').value;currentDay.notaGeneral=$('notaGeneral').value;
+  document.querySelectorAll('.situation-card').forEach((card,i)=>{const s={...DEFAULT_SITUATION(),...(currentDay.situations[i]||{})};card.querySelectorAll('[data-f]').forEach(el=>s[el.dataset.f]=el.value);currentDay.situations[i]=s});currentDay.situations=currentDay.situations.slice(0,2);
+}
+function fillDayForm(day){currentDay=JSON.parse(JSON.stringify(day));if(!currentDay.situations?.length)currentDay.situations=[DEFAULT_SITUATION()];$('etapa').value=currentDay.etapa||'DEMO';$('sesionDia').value=currentDay.sesionDia||'New York';$('feelingInicial').value=currentDay.feelingInicial||'';$('presion').value=currentDay.presion||'';$('feelingDurante').value=currentDay.feelingDurante||'';$('feelingFinal').value=currentDay.feelingFinal||'';$('bitacora').value=currentDay.bitacora||'';$('notaGeneral').value=currentDay.notaGeneral||'';draftImages={};draftDayImage=null;renderSituationForms();loadDayFormImage()}
+function addSituation2(){syncFormToCurrent();if(currentDay.situations.length<2){currentDay.situations.push(DEFAULT_SITUATION());renderSituationForms()}}
+function removeSituation2(){syncFormToCurrent();currentDay.situations=currentDay.situations.slice(0,1);delete draftImages[1];renderSituationForms()}
+window.removeSituation2=removeSituation2;
+function selectDate(date){$('date').value=date;const ym=date.slice(0,7);if($('month').value!==ym)$('month').value=ym;fillDayForm(readDay(date));renderDetail(date);renderCal()}
+
+async function imageFileToJpeg(file,maxSide=1800,quality=.82){
+  const dataUrl=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(file)});
+  const img=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error('No se pudo leer la imagen'));i.src=dataUrl});
+  const scale=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight)),w=Math.max(1,Math.round(img.naturalWidth*scale)),h=Math.max(1,Math.round(img.naturalHeight*scale)),canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);
+  return await new Promise((res,rej)=>canvas.toBlob(b=>b?res(b):rej(new Error('No se pudo convertir la imagen')),'image/jpeg',quality));
+}
+async function uploadImage(file,date,label){const blob=await imageFileToJpeg(file),path=`${date}/${label}-${Date.now()}-${Math.random().toString(36).slice(2,7)}.jpg`,r=await sb.storage.from('trading-images').upload(path,blob,{contentType:'image/jpeg',cacheControl:'3600',upsert:false});if(r.error)throw r.error;return r.data.path}
+async function deleteImage(path){if(!path)return;const r=await sb.storage.from('trading-images').remove([path]);if(r.error)console.warn('No se pudo borrar imagen anterior',r.error)}
+function loadFormImage(i){const p=$(`preview${i}`),path=currentDay.situations[i]?.imagePath;if(p&&path){p.src=publicImageUrl(path);p.style.display='block'}}
+function loadDayFormImage(){const p=$('dayPreview');if(!p)return;if(currentDay.dayImagePath){p.src=publicImageUrl(currentDay.dayImagePath);p.style.display='block'}else{p.removeAttribute('src');p.style.display='none'}}
+function loadDetailImage(path,i){const p=$(`detailImg${i}`);if(p&&path){p.src=publicImageUrl(path);p.style.display='block'}}
+
+async function saveDay(){
+  if(!isEditing()){alert('Inicia sesión como administrador para guardar.');return}
+  const btn=$('saveBtn');btn.disabled=true;btn.textContent='Guardando en la nube…';setSync('Supabase: guardando…');
+  try{
+    syncFormToCurrent();const date=$('date').value,old=readDay(date);
+    if(draftDayImage){const newPath=await uploadImage(draftDayImage,date,'dia');if(old.dayImagePath&&old.dayImagePath!==newPath)await deleteImage(old.dayImagePath);currentDay.dayImagePath=newPath}
+    for(const [i,file] of Object.entries(draftImages)){const idx=Number(i),newPath=await uploadImage(file,date,`situacion-${idx+1}`),oldPath=old.situations[idx]?.imagePath;if(oldPath&&oldPath!==newPath)await deleteImage(oldPath);currentDay.situations[idx].imagePath=newPath}
+    const dayPayload={trade_date:date,stage:currentDay.etapa,session_day:currentDay.sesionDia||null,feeling_initial:currentDay.feelingInicial||null,feeling_during:currentDay.feelingDurante||null,feeling_after:currentDay.feelingFinal||null,external_pressure:currentDay.presion?currentDay.presion.toUpperCase():null,emotional_notes:currentDay.bitacora||null,general_notes:currentDay.notaGeneral||null,day_image_path:currentDay.dayImagePath||null,updated_at:new Date().toISOString()};
+    const dr=await sb.from('trading_days').upsert(dayPayload,{onConflict:'trade_date'}).select().single();if(dr.error)throw dr.error;
+    const del=await sb.from('trade_situations').delete().eq('day_id',dr.data.id);if(del.error)throw del.error;
+    const active=currentDay.situations.slice(0,2).filter(situationHasData);if(active.length){const rows=active.map((x,i)=>({day_id:dr.data.id,situation_no:i+1,trade_type:x.tipo?x.tipo.toUpperCase():null,direction:x.direccion?x.direccion.toUpperCase():null,instrument:x.instrumento||'MES',contracts:nullableNum(x.contratos),manto:toBool(x.manto),setup_valid:toBool(x.setupValido),entry_correct:toBool(x.setupValido),execution_correct:toBool(x.ejecucionCorrecta),result:x.resultado?x.resultado.toUpperCase():null,risk_points:nullableNum(x.stopPts),target_points:nullableNum(x.targetPts),points:nullableNum(x.puntos),pnl:nullableNum(x.pnl),entry_config:x.entrada||null,session_name:x.sesion||null,management:x.gestion||null,management_reason:null,conduct_error:x.errorConductual||'Ninguno',note:x.notas||null,image_path:x.imagePath||null,updated_at:new Date().toISOString()}));const ir=await sb.from('trade_situations').insert(rows);if(ir.error)throw ir.error}
+    await loadRemoteData();draftImages={};draftDayImage=null;selectDate(date);alert('Registro guardado y sincronizado. Ya es visible desde el enlace público.');
+  }catch(err){console.error(err);setSync('Supabase: error al guardar','bad');alert('No se pudo guardar: '+(err.message||err))}finally{btn.disabled=false;btn.textContent='Guardar registro del día'}
+}
+
+
+async function deleteDay(){
+  if(!isEditing()){alert('Inicia sesión como administrador para eliminar.');return}
+  const date=$('date').value;
+  const saved=remoteDays.find(d=>d.date===date);
+  if(!saved){alert('Ese día no tiene ningún registro guardado.');return}
+  const ok=confirm(`¿Eliminar por completo el registro del ${date}?\n\nSe borrarán el día, sus situaciones y sus imágenes. Esta acción no se puede deshacer.`);
+  if(!ok)return;
+  const btn=$('deleteDayBtn');
+  btn.disabled=true;btn.textContent='Eliminando…';setSync('Supabase: eliminando día…');
+  try{
+    const paths=[saved.dayImagePath,...(saved.situations||[]).map(s=>s.imagePath)].filter(Boolean);
+    const dr=await sb.from('trading_days').delete().eq('trade_date',date);
+    if(dr.error)throw dr.error;
+    if(paths.length){
+      const unique=[...new Set(paths)];
+      const ir=await sb.storage.from('trading-images').remove(unique);
+      if(ir.error)console.warn('El día se eliminó, pero alguna imagen no pudo limpiarse del storage:',ir.error);
+    }
+    draftImages={};draftDayImage=null;currentDay={...DEFAULT_DAY(),date};
+    await loadRemoteData();selectDate(date);
+    alert('Día eliminado. La fecha quedó limpia para volver a registrarla cuando quieras.');
+  }catch(err){
+    console.error(err);setSync('Supabase: error al eliminar','bad');alert('No se pudo eliminar el día: '+(err.message||err));
+  }finally{
+    btn.disabled=false;btn.textContent='🗑 Eliminar día';
+  }
+}
+
+function renderDetail(date){
+  const d=readDay(date),s=(d.situations||[]).filter(situationHasData);$('detailTitle').textContent=`Detalle del día · ${date}`;const p=dayPoints(d);$('dayPill').textContent=!dayOperated(d)?'Sin operar':p>0?`Positivo ${fmt(p)} pts`:p<0?`Negativo ${fmt(p)} pts`:'Break even';$('dayEmotion').textContent=d.bitacora||d.notaGeneral||'Sin bitácora emocional para este día.';
+  const dayImg=d.dayImagePath?`<img class="day-general-img" id="detailDayImg" alt="Evidencia general" src="${escapeHtml(publicImageUrl(d.dayImagePath))}" style="display:block">`:'';
+  $('detailSituations').innerHTML=dayImg+s.map((x,i)=>`<div class="situation-detail"><h4>Situación ${i+1}${x.tipo?' · '+escapeHtml(x.tipo):''}</h4><div class="detail-grid"><div class="detail-cell"><span>Dirección</span><strong>${escapeHtml(x.direccion||'—')}</strong></div><div class="detail-cell"><span>Setup válido</span><strong class="${x.setupValido==='Sí'?'g':x.setupValido==='No'?'r':''}">${escapeHtml(x.setupValido||'Pendiente')}</strong></div><div class="detail-cell"><span>Resultado</span><strong>${escapeHtml(x.resultado||'—')} ${String(x.puntos).trim()!==''?'· '+fmt(num(x.puntos))+' pts':''}</strong></div><div class="detail-cell"><span>Ejecución</span><strong class="${x.ejecucionCorrecta==='Sí'?'g':x.ejecucionCorrecta==='No'?'r':''}">${escapeHtml(x.ejecucionCorrecta||'Pendiente')}</strong></div><div class="detail-cell"><span>Gestión</span><strong>${escapeHtml(x.gestion||'—')}</strong></div><div class="detail-cell"><span>Error conductual</span><strong class="${x.errorConductual&&x.errorConductual!=='Ninguno'?'r':''}">${escapeHtml(x.errorConductual||'—')}</strong></div><div class="detail-cell"><span>Manto</span><strong>${escapeHtml(x.manto||'—')}</strong></div><div class="detail-cell"><span>PnL</span><strong>${String(x.pnl).trim()!==''?'$'+fmt(num(x.pnl),2):'—'}</strong></div></div>${x.notas?`<div class="notes">${escapeHtml(x.notas)}</div>`:''}<img class="detail-img" id="detailImg${i}" alt="Evidencia"></div>`).join('')+(s.length?'':'<div class="notes">Sin situaciones registradas.</div>');
+  s.forEach((x,i)=>loadDetailImage(x.imagePath,i));
+}
+
+function updateMetrics(){const md=monthData(),ad=dataFiltered(),ms=stats(md),gs=stats(ad),st=streaks(ad);$('kpiScore').textContent=`${ms.score}/100`;$('kpiAsert').textContent=`${ms.acert}%`;$('kpiEfec').textContent=`${ms.efec}%`;$('kpiDisc').textContent=`${ms.disc}%`;$('kpiScoreSub').textContent=ms.sit.length?`${ms.sit.length} situaciones`:'Sin datos evaluados';$('kpiAsertSub').textContent=`${ms.setupEval.filter(s=>s.setupValido==='Sí').length} de ${ms.setupEval.length} evaluadas`;$('kpiEfecSub').textContent=`${ms.execEval.filter(s=>s.ejecucionCorrecta==='Sí').length} de ${ms.execEval.length} evaluadas`;$('kpiDiscSub').textContent=`${ms.discEval.filter(s=>s.errorConductual==='Ninguno').length} de ${ms.discEval.length} sin error`;$('sideStreak').textContent=`${st.cur} días`;$('sideBest').textContent=`Mejor racha: ${st.bw} días`;$('monthRows').innerHTML=summaryRows(ms,md);$('generalRows').innerHTML=summaryRows(gs,ad,true);$('validCount').textContent=ms.setupEval.filter(s=>s.setupValido==='Sí').length;$('validRate').textContent=`${ms.acert}% acertabilidad`;$('execCount').textContent=ms.execEval.filter(s=>s.ejecucionCorrecta==='Sí').length;$('execRate').textContent=`${ms.efec}% efectividad`;$('errorCount').textContent=ms.errors.length;$('errorCost').textContent=ms.errorLossUsd?`-$${ms.errorLossUsd.toFixed(0)}`:`-${ms.errorLossPts.toFixed(1)} pts`;$('situationsCount').textContent=ms.sit.length;const best=bestDay(md,1),worst=bestDay(md,-1);$('bestDay').textContent=best?`${fmt(dayPoints(best))} pts`:'—';$('bestDayDate').textContent=best?.date||'—';$('worstDay').textContent=worst?`${fmt(dayPoints(worst))} pts`:'—';$('worstDayDate').textContent=worst?.date||'—';$('bestWinStreak').textContent=`${st.bw} días`;$('bestWinRange').textContent=dateRange(st.bwStart,st.bwEnd);$('errorCostAll').textContent=gs.errorLossUsd?`-$${gs.errorLossUsd.toFixed(0)}`:`-${gs.errorLossPts.toFixed(1)} pts`;renderNotesTable();renderMetricsTable(ms,gs);renderAnalysis(gs);drawEvolution();drawDonut(ms);renderEmotionWeekly()}
+function summaryRows(s,days,general=false){return `<div class="row"><span>Días operados</span><strong>${s.operated.length}</strong></div><div class="row"><span>Días positivos</span><strong class="g">${s.positive.length}</strong></div><div class="row"><span>Días negativos</span><strong class="r">${s.negative.length}</strong></div><div class="row"><span>Break-even</span><strong>${s.be.length}</strong></div><div class="row"><span>${general?'Resultado general':'Resultado del mes'}</span><strong class="${s.net>=0?'g':'r'}">${fmt(s.net)} pts</strong></div><div class="row"><span>PnL registrado</span><strong class="${s.pnl>=0?'g':'r'}">$${fmt(s.pnl,2)}</strong></div><div class="row"><span>Acertabilidad</span><strong>${s.acert}%</strong></div><div class="row"><span>Efectividad</span><strong>${s.efec}%</strong></div><div class="row"><span>Disciplina</span><strong>${s.disc}%</strong></div>`}
+function bestDay(days,dir){const a=days.filter(dayOperated);if(!a.length)return null;return[...a].sort((x,y)=>dir*(dayPoints(y)-dayPoints(x)))[0]}
+function renderMetricsTable(ms,gs){$('metricsTable').innerHTML=`<tr><th>Métrica</th><th>Mes</th><th>General</th></tr><tr><td>Acertabilidad</td><td>${ms.acert}%</td><td>${gs.acert}%</td></tr><tr><td>Efectividad</td><td>${ms.efec}%</td><td>${gs.efec}%</td></tr><tr><td>Disciplina</td><td>${ms.disc}%</td><td>${gs.disc}%</td></tr><tr><td>Trader Score</td><td>${ms.score}/100</td><td>${gs.score}/100</td></tr><tr><td>Situaciones</td><td>${ms.sit.length}</td><td>${gs.sit.length}</td></tr><tr><td>Puntos ganados</td><td>+${ms.won.toFixed(1)}</td><td>+${gs.won.toFixed(1)}</td></tr><tr><td>Puntos perdidos</td><td>-${ms.lost.toFixed(1)}</td><td>-${gs.lost.toFixed(1)}</td></tr><tr><td>Resultado neto</td><td>${fmt(ms.net)}</td><td>${fmt(gs.net)}</td></tr><tr><td>Errores conductuales</td><td>${ms.errors.length}</td><td>${gs.errors.length}</td></tr>`}
+function renderAnalysis(gs){$('anaValid').textContent=`${gs.acert}%`;$('anaExec').textContent=`${gs.efec}%`;$('anaErrors').textContent=gs.errors.length;let text='';if(gs.setupEval.length<5||gs.execEval.length<5)text='Aún faltan datos revisados para un diagnóstico sólido.';else if(gs.acert>=70&&gs.efec<55)text='La lectura está por encima de la ejecución: estás encontrando setups con más frecuencia de la que los gestionas correctamente. El foco principal debe estar después de la entrada.';else if(gs.acert<55&&gs.efec>=70)text='La ejecución es sólida, pero la selección de entradas está debilitando el resultado. Conviene revisar filtros de estructura y setup.';else if(gs.acert>=70&&gs.efec>=70)text='Lectura y ejecución están alineadas. El siguiente paso es verificar que la expectativa en puntos/PnL también sea positiva y sostenible.';else text='Lectura y ejecución todavía están en fase de construcción. Mantén el registro y evita cambiar reglas con muestras pequeñas.';$('analysisText').textContent=text}
+function renderNotesTable(){const rows=dataFiltered().filter(d=>d.bitacora||d.notaGeneral).sort((a,b)=>b.date.localeCompare(a.date));$('notesTable').innerHTML=rows.length?`<tr><th>Fecha</th><th>Etapa</th><th>Feeling</th><th>Bitácora / aprendizaje</th></tr>`+rows.map(d=>`<tr><td>${d.date}</td><td>${d.etapa}</td><td>${escapeHtml(d.feelingInicial||'—')} → ${escapeHtml(d.feelingFinal||'—')}</td><td>${escapeHtml(d.bitacora||d.notaGeneral)}</td></tr>`).join(''):'<tr><td>Sin bitácoras todavía.</td></tr>'}
+function startOfWeek(date){const d=new Date(date+'T12:00:00'),day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return d.toISOString().slice(0,10)}
+function monthLabel(date){return date.slice(0,7)}
+function groupData(days,range){const map=new Map();days.filter(dayOperated).forEach(d=>{const key=range==='MONTH'?monthLabel(d.date):startOfWeek(d.date);if(!map.has(key))map.set(key,[]);map.get(key).push(d)});return[...map.entries()].sort((a,b)=>a[0].localeCompare(b[0]))}
+function evolutionSeries(){const days=dataFiltered(),groups=groupData(days,chartRange==='MONTH'?'MONTH':'WEEK');let visible=groups;if(chartRange==='WEEK'||chartRange==='MONTH')visible=groups.slice(-12);let cumulative=0;return visible.map(([key,ds])=>{const s=stats(ds);let value;if(chartMetric==='PNL'){cumulative+=s.pnl!==0?s.pnl:s.net;value=cumulative}else if(chartMetric==='ACERT')value=s.acert;else if(chartMetric==='EFEC')value=s.efec;else if(chartMetric==='DISC')value=s.disc;else value=s.score;return{key,label:chartRange==='MONTH'?key:`Sem ${key.slice(5)}`,value,stats:s}})}
+function drawEvolution(){const series=evolutionSeries(),c=$('lineChart'),ctx=c.getContext('2d'),r=c.parentElement.getBoundingClientRect(),dpr=window.devicePixelRatio||1;c.width=Math.max(1,r.width*dpr);c.height=Math.max(1,r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);const w=r.width,h=r.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle='rgba(148,163,184,.14)';ctx.lineWidth=1;for(let i=0;i<5;i++){const y=18+i*(h-42)/4;ctx.beginPath();ctx.moveTo(38,y);ctx.lineTo(w-10,y);ctx.stroke()}if(!series.length){ctx.fillStyle='#98a2b3';ctx.font='13px Arial';ctx.fillText('Aún no hay datos para esta vista.',45,h/2);$('chartSummary').innerHTML=summaryChartEmpty();return}let vals=series.map(x=>x.value),min,max;if(chartMetric==='PNL'){min=Math.min(0,...vals);max=Math.max(0,...vals);if(min===max){min-=1;max+=1}}else{min=0;max=100}const pts=series.map((x,i)=>[45+i*(w-65)/(series.length-1||1),h-28-(x.value-min)/(max-min||1)*(h-55)]),color=chartMetric==='EFEC'?'#f59e0b':chartMetric==='PNL'?'#39ff6b':chartMetric==='DISC'?'#22d3ee':'#4cff83';ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.strokeStyle=color;ctx.lineWidth=2.6;ctx.shadowBlur=8;ctx.shadowColor=color;ctx.stroke();ctx.shadowBlur=0;pts.forEach((p,i)=>{ctx.beginPath();ctx.arc(p[0],p[1],3,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();if(series.length<=8){ctx.fillStyle='#9fb0c4';ctx.font='10px Arial';ctx.textAlign='center';ctx.fillText(series[i].label,p[0],h-7)}});ctx.textAlign='left';ctx.fillStyle='#9fb0c4';ctx.font='10px Arial';ctx.fillText(chartMetric==='PNL'?fmt(max,0):`${max}%`,4,21);ctx.fillText(chartMetric==='PNL'?fmt(min,0):`${min}%`,4,h-27);renderChartSummary(series)}
+function summaryChartEmpty(){return'<div><span>Actual</span><strong>—</strong></div><div><span>Periodo anterior</span><strong>—</strong></div><div><span>Cambio</span><strong>—</strong></div><div><span>Muestra</span><strong>0</strong></div>'}
+function renderChartSummary(series){const last=series.at(-1),prev=series.at(-2),suffix=chartMetric==='PNL'?'':'%',change=prev?last.value-prev.value:null,sample=last.stats.sit.length;$('chartSummary').innerHTML=`<div><span>Actual</span><strong>${chartMetric==='PNL'?'$'+fmt(last.value,0):Math.round(last.value)+suffix}</strong></div><div><span>Periodo anterior</span><strong>${prev?(chartMetric==='PNL'?'$'+fmt(prev.value,0):Math.round(prev.value)+suffix):'—'}</strong></div><div><span>Cambio</span><strong class="${change===null?'':change>=0?'g':'r'}">${change===null?'—':chartMetric==='PNL'?'$'+fmt(change,0):fmt(change,0)+' pp'}</strong></div><div><span>Situaciones del periodo</span><strong>${sample}</strong></div>`}
+function drawDonut(s){const c=$('donutChart'),ctx=c.getContext('2d'),r=c.parentElement.getBoundingClientRect(),dpr=window.devicePixelRatio||1;c.width=r.width*dpr;c.height=r.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);const w=r.width,h=r.height,cx=w/2,cy=h/2-8,rad=Math.min(w,h)/3.2;ctx.clearRect(0,0,w,h);const vals=[s.positive.length,s.negative.length,s.be.length],cols=['#39ff6b','#ef4444','#f59e0b'],total=vals.reduce((a,b)=>a+b,0)||1;let start=-Math.PI/2;vals.forEach((v,i)=>{const ang=v/total*Math.PI*2;ctx.beginPath();ctx.arc(cx,cy,rad,start,start+ang);ctx.lineWidth=24;ctx.strokeStyle=cols[i];ctx.stroke();start+=ang});ctx.beginPath();ctx.arc(cx,cy,rad-16,0,Math.PI*2);ctx.fillStyle='#0b111c';ctx.fill();$('donutLegend').innerHTML=`<div class="row"><span>Ganadores</span><strong class="g">${s.positive.length}</strong></div><div class="row"><span>Perdedores</span><strong class="r">${s.negative.length}</strong></div><div class="row"><span>BE</span><strong>${s.be.length}</strong></div><div class="row"><span>Neto</span><strong class="${s.net>=0?'g':'r'}">${fmt(s.net)} pts</strong></div>`}
+function renderEmotionWeekly(){const date=$('date').value,start=startOfWeek(date),sd=new Date(start+'T12:00:00'),ed=new Date(sd);ed.setDate(ed.getDate()+6);const end=ed.toISOString().slice(0,10),days=dataFiltered().filter(d=>d.date>=start&&d.date<=end),withEmotion=days.filter(d=>d.feelingInicial||d.feelingDurante||d.bitacora||d.presion),s=stats(days),freq={};withEmotion.forEach(d=>{if(d.feelingDurante)freq[d.feelingDurante]=(freq[d.feelingDurante]||0)+1});const top=Object.entries(freq).sort((a,b)=>b[1]-a[1])[0]?.[0]||'Sin dato',high=withEmotion.filter(d=>d.presion==='Alta').length,calmDays=withEmotion.filter(d=>['Tranquilo','Profesional','Confiado'].includes(d.feelingInicial)),calmStats=stats(calmDays);$('emotionWeekly').innerHTML=`<div class="emotion-item"><span class="emotion-dot"></span><span>${withEmotion.length} días con registro emocional esta semana.</span></div><div class="emotion-item"><span class="emotion-dot ${high?'warn':''}"></span><span>Presión externa alta: ${high} día(s).</span></div><div class="emotion-item"><span class="emotion-dot"></span><span>Emoción más repetida durante la sesión: <strong>${escapeHtml(top)}</strong>.</span></div><div class="emotion-item"><span class="emotion-dot"></span><span>Efectividad iniciando tranquilo/profesional: <strong>${calmStats.execEval.length?calmStats.efec+'%':'sin muestra suficiente'}</strong>.</span></div><div class="emotion-item"><span class="emotion-dot ${s.errors.length?'bad':''}"></span><span>Errores conductuales esta semana: <strong>${s.errors.length}</strong>${s.errorLossUsd?` · pérdidas asociadas: $${s.errorLossUsd.toFixed(0)}`:s.errorLossPts?` · ${s.errorLossPts.toFixed(1)} pts perdidos`:''}.</span></div>`}
+
+async function exportBackup(){const payload={exportedAt:new Date().toISOString(),version:3,source:'Supabase',records:allDataRaw()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`DERLY_TRADER_BACKUP_${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href)}
+function isEditing(){return !!(authSession?.user?.email&&authSession.user.email.toLowerCase()===ADMIN_EMAIL)}
+function applyMode(){const edit=isEditing();document.body.classList.toggle('view-mode',!edit);$('modeLabel').textContent=edit?'Administrador · nube':'Visitante · solo lectura';$('adminBtn').style.display=edit?'none':'block';$('exitAdminBtn').style.display=edit?'block':'none'}
+function openLogin(){if(isEditing())return;$('loginPassword').value='';$('loginError').textContent='';$('loginModal').classList.add('show');setTimeout(()=>$('loginPassword').focus(),50)}
+function closeLogin(){$('loginModal').classList.remove('show')}
+async function doLogin(){const email=$('loginEmail').value.trim(),password=$('loginPassword').value;if(!email||!password){$('loginError').textContent='Escribe correo y contraseña.';return}$('doLogin').disabled=true;$('loginError').textContent='Entrando…';const r=await sb.auth.signInWithPassword({email,password});$('doLogin').disabled=false;if(r.error){$('loginError').textContent='No se pudo iniciar sesión: '+r.error.message;return}authSession=r.data.session;applyMode();closeLogin();setSync('Supabase: admin conectado','ok')}
+async function logout(){await sb.auth.signOut();authSession=null;applyMode();setSync(`Supabase: ${remoteDays.length} día(s) sincronizados`,'ok')}
+
+// Eventos
+$('adminBtn').onclick=openLogin;$('exitAdminBtn').onclick=logout;$('cancelLogin').onclick=closeLogin;$('doLogin').onclick=doLogin;$('loginModal').onclick=e=>{if(e.target===$('loginModal'))closeLogin()};$('loginPassword').onkeydown=e=>{if(e.key==='Enter')doLogin()};$('addSituationBtn').onclick=addSituation2;$('saveBtn').onclick=saveDay;$('deleteDayBtn').onclick=deleteDay;$('exportBtn').onclick=exportBackup;
+$('dayImageInput').onchange=()=>{const f=$('dayImageInput').files?.[0];if(!f)return;draftDayImage=f;const p=$('dayPreview');p.src=URL.createObjectURL(f);p.style.display='block'};
+$('month').onchange=renderCal;$('date').onchange=()=>selectDate($('date').value);document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));$(b.dataset.tab).classList.add('active')});document.querySelectorAll('.stage-filter button').forEach(b=>b.onclick=()=>{stageFilter=b.dataset.stage;document.querySelectorAll('.stage-filter button').forEach(x=>x.classList.toggle('active',x===b));renderCal();renderDetail($('date').value)});document.querySelectorAll('.chart-tabs button').forEach(b=>b.onclick=()=>{chartMetric=b.dataset.metric;document.querySelectorAll('.chart-tabs button').forEach(x=>x.classList.toggle('active',x===b));drawEvolution()});document.querySelectorAll('.range-tabs button').forEach(b=>b.onclick=()=>{chartRange=b.dataset.range;document.querySelectorAll('.range-tabs button').forEach(x=>x.classList.toggle('active',x===b));drawEvolution()});window.addEventListener('resize',()=>{drawEvolution();drawDonut(stats(monthData()))});
+sb.auth.onAuthStateChange((_event,session)=>{authSession=session;applyMode()});
+
+async function init(){const today=new Date().toISOString().slice(0,10);$('month').value=today.slice(0,7);$('date').value=today;const sr=await sb.auth.getSession();authSession=sr.data.session;applyMode();try{await loadRemoteData()}catch(e){alert('No se pudo cargar Supabase. Revisa que las tablas y políticas estén creadas.')}selectDate(today)}
+init();
+</script>
+</body>
+</html>
